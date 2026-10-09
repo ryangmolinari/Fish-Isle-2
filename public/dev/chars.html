@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Personagens</title>
+<style>body{margin:0;padding:12px;background:#bfe9df;font:13px system-ui}canvas{image-rendering:auto}</style></head>
+<body><canvas id="c" width="1240" height="760"></canvas>
+<script type="module">
+import { CHARACTERS, drawCharacter, drawHoldArms } from '/js/art/charArt.js';
+const c = document.getElementById('c'), ctx = c.getContext('2d');
+const S = 2.6;
+const hats = [null, 'chapeu_palha', 'gorro_la', 'bandana_brasa', 'tiara_cristal', 'bone_capitao'];
+CHARACTERS.forEach((ch, i) => {
+  for (let d = 0; d < 4; d++) for (let f = 0; f < 2; f++) {
+    ctx.save(); ctx.translate(40 + (d * 2 + f) * 62 * S / 2.2, 90 + i * 115); ctx.scale(S, S);
+    ctx.fillStyle = 'rgba(0,0,0,.15)'; ctx.beginPath(); ctx.ellipse(0, 0, 9, 3.5, 0, 0, 7); ctx.fill();
+    drawCharacter(ctx, ch, { dir: d, phase: f, moving: f === 1, pose: 'swing' });
+    ctx.restore();
+  }
+  ctx.save(); ctx.translate(40 + 8 * 62 * S / 2.2, 90 + i * 115); ctx.scale(S, S);
+  drawCharacter(ctx, ch, { dir: 0, pose: 'up', hat: hats[i] });
+  ctx.restore();
+  ctx.save(); ctx.translate(40 + 9 * 62 * S / 2.2, 90 + i * 115); ctx.scale(S, S);
+  drawCharacter(ctx, ch, { dir: 2, pose: 'hold', hat: hats[(i + 2) % 6] }); drawHoldArms(ctx, ch, 2, { x: 9, y: -16 });
+  ctx.restore();
+  ctx.save(); ctx.translate(40 + 10 * 62 * S / 2.2, 90 + i * 115); ctx.scale(S, S);
+  drawCharacter(ctx, ch, { dir: 0, pose: 'hold', hat: hats[(i + 4) % 6] }); drawHoldArms(ctx, ch, 0, { x: 0, y: -12 });
+  ctx.restore();
+  ctx.fillStyle = '#16424a'; ctx.fillText(ch.name, 4, 100 + i * 115);
+});
+window.__done = true;
+</script></body></html>

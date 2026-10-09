@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Região</title>
+<style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style></head>
+<body><canvas id="c"></canvas>
+<script type="module">
+import { RegionView } from '/js/world/regionView.js';
+import { Particles } from '/js/world/particles.js';
+const q = new URLSearchParams(location.search);
+const id = q.get('id') || 'tropical';
+const zoom = +(q.get('z') || 1.6);
+const c = document.getElementById('c'); c.width = innerWidth; c.height = innerHeight;
+const ctx = c.getContext('2d');
+const P = new Particles();
+const t0 = performance.now();
+const rv = new RegionView(id, zoom, 'high', P);
+const cx = +(q.get('x') || rv.region.spawn.x), cy = +(q.get('y') || rv.region.spawn.y);
+const w = c.width / zoom, h = c.height / zoom;
+const view = { x0: cx - w / 2, y0: cy - h / 2, x1: cx + w / 2, y1: cy + h / 2 };
+rv.terrain.warm(cx, cy, Math.max(w, h));
+const tGen = performance.now() - t0;
+let frames = 0, tStart = performance.now(), t = 0;
+function frame() {
+  t += 1 / 60;
+  rv.update(1 / 60, t, view); P.update(1 / 60);
+  ctx.setTransform(zoom, 0, 0, zoom, -view.x0 * zoom, -view.y0 * zoom);
+  rv.drawWater(ctx, view, t, Infinity);
+  rv.drawHotspots(ctx, view, t);
+  P.draw(ctx, 'ground', view);
+  rv.drawLand(ctx, view, t);
+  rv.drawGates(ctx, view, t, null);
+  rv.drawMoorings(ctx, view, t, []);
+  rv.drawSorted(ctx, view, t, [], null);
+  P.draw(ctx, 'air', view);
+  rv.drawLighting(ctx, view, t);
+  frames++;
+  if (frames < 120) requestAnimationFrame(frame);
+  else { document.title = `${id} gen=${tGen.toFixed(0)}ms chunks=${rv.terrain.genCount} avgChunk=${(rv.terrain.genMs / rv.terrain.genCount).toFixed(1)}ms fps=${(frames / ((performance.now() - tStart) / 1000)).toFixed(0)}`; window.__done = true; }
+}
+frame();
+</script></body></html>

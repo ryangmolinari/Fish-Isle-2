@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Fish Isle — pesca multiplayer</title>
+<meta name="description" content="Jogo de pesca multiplayer 2D: explore cinco ilhas, colecione 50 peixes e navegue com até 12 amigos.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%232fc4b2'/><ellipse cx='30' cy='33' rx='16' ry='10' fill='%23ffd23f' stroke='%2316424a' stroke-width='3'/><path d='M44 33l10-8v16z' fill='%23ffd23f' stroke='%2316424a' stroke-width='3' stroke-linejoin='round'/><circle cx='23' cy='30' r='2.6' fill='%2316424a'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<canvas id="game" aria-label="Mundo do jogo"></canvas>
+<div id="ui">
+  <div id="hud" class="hidden"></div>
+  <div id="prompt" class="hidden"></div>
+  <div id="hint" class="hidden"></div>
+  <div id="toasts" aria-live="polite"></div>
+  <div id="menu"></div>
+  <div id="modal-root"></div>
+  <div id="fade"><div class="fade-card"><div class="fade-title"></div><div class="fade-sub"></div></div></div>
+  <div id="reconnect" class="hidden"><div class="card"><div class="spinner"></div><div>Conexão perdida. Reconectando…</div></div></div>
+  <div id="fps" class="hidden"></div>
+</div>
+<noscript>Este jogo precisa de JavaScript.</noscript>
+<script type="module" src="/js/main.js"></script>
+</body>
+</html>
