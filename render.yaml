@@ -1,0 +1,12 @@
+# Blueprint do Render: cria o serviço web do Fish Isle automaticamente
+services:
+  - type: web
+    name: fish-isle
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
